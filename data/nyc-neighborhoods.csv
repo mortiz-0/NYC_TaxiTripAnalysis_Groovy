@@ -1,0 +1,30 @@
+borough;neighborhood;latitude;longitude
+Manhattan;Harlem;40,81155;-73,946477
+Manhattan;Upper East Side;40,773565;-73,956555
+Manhattan;Upper West Side;40,78701;-73,975367
+Manhattan;Midtown;40,754932;-73,984016
+Manhattan;Chelsea;40,7465;-74,001374
+Manhattan;Greenwich Village;40,733572;-74,002742
+Manhattan;SoHo;40,723301;-74,002988
+Manhattan;Lower East Side;40,715033;-73,984272
+Manhattan;Tribeca;40,716269;-74,008632
+Manhattan;Financial District;40,707491;-74,011276
+Brooklyn;Williamsburg;40,708116;-73,95707
+Brooklyn;Bushwick;40,69585;-73,908161
+Brooklyn;Park Slope;40,672438;-73,979199
+Brooklyn;Bedford-Stuyvesant;40,686829;-73,941932
+Brooklyn;Crown Heights;40,668682;-73,942133
+Brooklyn;DUMBO;40,703316;-73,990636
+Queens;Astoria;40,764356;-73,923462
+Queens;Long Island City;40,744679;-73,948542
+Queens;Flushing;40,767499;-73,833079
+Queens;Jackson Heights;40,751404;-73,884008
+Queens;Forest Hills;40,719141;-73,844795
+Bronx;Fordham;40,861239;-73,89405
+Bronx;Belmont;40,852833;-73,902771
+Bronx;Hunts Point;40,816154;-73,889683
+Bronx;Riverdale;40,889802;-73,913731
+Staten Island;St. George;40,643144;-74,072248
+Staten Island;Tottenville;40,512462;-74,255256
+Staten Island;New Dorp;40,579447;-74,134425
+Staten Island;Stapleton;40,639499;-74,090829
