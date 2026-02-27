@@ -53,10 +53,11 @@ class TaxiConsole {
                     loaded = true
                     taxiService.loadCSV("../resources/data/taxis-test.csv")
                     println("CSV Loaded Successfully.")
-
+                    getStringInput(sc, "Press any button to continue...")
                     break
                 case 1:
                     taxiService.showF1Results()
+                    getStringInput(sc, "Press any button to continue...")
                     break
                 case functions.length - 1:
                     println("Exiting...")
@@ -64,9 +65,9 @@ class TaxiConsole {
                     break
                 default:
                     println("Invalid option. Please try again.")
+                    getStringInput(sc, "Press any button to continue...")
                     break
             }
-            getStringInput(sc, "Press any button to continue...")
         }
     }
 }
