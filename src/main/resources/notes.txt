@@ -1,0 +1,30 @@
+//Groovy Common Methods for fetching and Error handling:
+Object.collect{}
+Object.findAll{}
+Object.find{}
+Object.groupBy{}
+Elvis operator (?:)
+Safe Navigation operator (?.)
+//JSON
+JsonSlurper: To parse JSON strings into Groovy objects.
+Example:
+"""
+def rawJson = '{"productId": "PX-100", "basePrice": 250.00, "allowDiscount": true}'
+def slurper = new JsonSlurper()
+def dataMap = slurper.parseText(rawJson)
+"""
+JsonBuilder: To create JSON strings from Groovy objects.
+Example:
+"""
+def builder = new JsonBuilder(dataMap)
+def updatedJson = builder.toPrettyString()
+api.log("Final JSON Payload: ${updatedJson}")//Don't forget Logging the final JSON
+api.getElement("FinalPriceResult").add(dataMap.finalPrice)
+"""
+//Pricefx API Common Methods:
+api.getElement(): Into a logical element, such as a field, a table, or a form.
+api.vLookup(): To perform a vertical lookup in a table or range.
+api.product(): To access the information about a product, such as its name, price, or description.
+api.addOrUpdate() : To add a new record or update an existing record in a database or table.
+api.calculate(): To perform a calculation based on specified parameters or formulas.
+api.sendEmail(): To send an email to a specified recipient with a subject and body.

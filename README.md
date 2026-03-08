@@ -14,9 +14,9 @@ The goal of this project is to analyze a sample of 1000 taxi trip records from N
 
 ## Implemented Functions
 
-### F1 & F2: Average Trip Info by Passenger Count
-Analyzes trip data filtered by a specific number of passengers (e.g., "1", "2", "3" or "5").
-*   **Input:** Number of passengers to filter.
+### F1 & F2: Average Trip Info by Passenger Count & Payment Type
+Analyzes trip data filtered by Passenger Count or Payment Type.
+*   **Input:** Select to filter by Passenger Count or Payment Type.
 *   **Output:**
     *   Execution time in milliseconds.
     *   Total number of trips matching the filter.
@@ -24,8 +24,7 @@ Analyzes trip data filtered by a specific number of passengers (e.g., "1", "2", 
     *   Average total cost (USD).
     *   Average distance (miles).
     *   Average tolls paid.
-    *   Most used payment method (Format: `METHOD - COUNT`).
-    *   Average tip amount.
+    *   Frequency of Payment methods or Passenger count (`METHOD/PASSENGERS - COUNT`).
     *   Date with the highest trip frequency (Format: `%Y-%m-%d`).
 
 ### F3: Average Trip Info by Fare Range
@@ -39,12 +38,12 @@ Analyzes trips within a specific total fare range.
     *   Average distance (miles).
     *   Average tolls paid.
     *   Most frequent passenger count (Format: `#PASSENGERS - COUNT`).
-    *   Average tip amount.
+    *   Most frequent payment method (Format: `PAYMENT_METHOD - COUNT`).
     *   Most frequent trip end date (Format: `%Y-%m-%d`).
 
 ### F4: Extreme Cost Neighborhood Combinations
 Identifies the origin-destination neighborhood pairs with the **highest** or **lowest** average total cost within a date range.
-*   **Input:** Cost filter (`MAYOR` or `MENOR`), Start Date, and End Date (`%Y-%m-%d`).
+*   **Input:** Cost filter (`GREATER` or `LESSER`), Start Date, and End Date (`%Y-%m-%d`).
 *   **Logic:**
     *   Only considers trips where origin and destination are different.
     *   Uses the **Haversine formula** to map GPS coordinates to the nearest NYC neighborhood centroid.

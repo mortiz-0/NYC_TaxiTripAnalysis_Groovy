@@ -16,7 +16,8 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     //CSV parsing
     implementation 'org.apache.commons:commons-csv:1.10.0'
-}
+    //JSON parsing
+    implementation 'org.apache.groovy:groovy-json:4.0.14'}
 
 test {
     useJUnitPlatform()

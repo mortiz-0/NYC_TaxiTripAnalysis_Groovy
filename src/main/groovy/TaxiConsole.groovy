@@ -1,5 +1,9 @@
+import java.text.SimpleDateFormat
+
 class TaxiConsole {
-    String[] functions = ["Load CSV", "Average Trip Info by Passengers", "Average Trip Info by Fare Range", "Exit"]
+    String[] functions = ["Load CSV", "Average Trip Info by Passengers",
+                          "Average Trip Info by Fare Range", "Average Trip Info by location and date range",
+                          "Exit"]
 
     void printMenu() {
         println("\n---------------------" + "\nTaxi Trips Analysis" + "\n---------------------")
@@ -23,6 +27,27 @@ class TaxiConsole {
         }
     }
 
+    Double getDoubleInput(Scanner sc, String prompt) {
+        println(prompt)
+        try {
+            return Double.parseDouble(sc.nextLine())
+        } catch (NumberFormatException ignored) {
+            println("Invalid input. Please enter a valid number.")
+            return getDoubleInput(sc, prompt)
+        }
+    }
+
+    Date getDateInput(Scanner sc, String prompt) {
+        println(prompt)
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd")
+        try {
+            return dateFormat.parse(sc.nextLine())
+        } catch (Exception ignored) {
+            println("Invalid input. Please enter a valid date in the format 'yyyy-MM-dd'.")
+            return getDateInput(sc, prompt)
+        }
+    }
+
     void executeConsole() {
         // Initialize Scanner for user input and TaxiServices instance
         Scanner sc = new Scanner(System.in)
@@ -31,10 +56,10 @@ class TaxiConsole {
         boolean working = true
         boolean loaded = false
         while (working) {
-            printMenu()
             //Ensuring loading CSV first
             Integer input = null
             while (input == null) {
+                printMenu()
                 input = getIntegerInput(sc, ("Select an option (0-" + (functions.length - 1).toString() + "): "))
                 if (input == functions.length - 1 || input == 0) {
                     break
@@ -43,20 +68,49 @@ class TaxiConsole {
                     break
                 }
                 else {
-                    input == ""
-                    println("Please load the CSV file first.")
+                    getStringInput(sc,"Please load the CSV file first.")
                 }
+                input = null
             }
             switch (input) {
                 case 0:
                     println("Loading CSV...")
                     loaded = true
                     taxiService.loadCSV("../resources/data/taxis-test.csv")
+                    taxiService.loadCSV("../resources/data/nyc-neighborhoods.csv")
                     println("CSV Loaded Successfully.")
                     getStringInput(sc, "Press any button to continue...")
                     break
                 case 1:
-                    taxiService.showF1Results()
+                    String method = null
+                    while(method==null){
+                        method = getStringInput(sc, "Select a filter, passenger count (1) or payment method (2):")
+                        if (method != "1" && method != "2"){
+                            println("Invalid option. Please try again.")
+                            method = null
+                        }
+                    }
+                    taxiService.showF1Results(method)
+                    getStringInput(sc, "Press any button to continue...")
+                    break
+                case 2:
+                    Double fareI = getDoubleInput(sc, "Enter the minimum fare amount:")
+                    Double fareF = getDoubleInput(sc, "Enter the maximum fare amount:")
+                    taxiService.showF2Results(fareI, fareF)
+                    getStringInput(sc, "Press any button to continue...")
+                    break
+                case 3:
+                    String filter = null
+                    while(filter==null) {
+                        filter = getStringInput(sc, "Select a filter, GREATER (1) or LESSER (2) average total cost:")
+                        if (filter != "1" && filter != "2") {
+                            println("Invalid option. Please try again.")
+                            filter = null
+                        }
+                    }
+                    Date dateI = getDateInput(sc, "Enter the start date (yyyy-MM-dd):")
+                    Date dateF = getDateInput(sc, "Enter the end date (yyyy-MM-dd):")
+                    taxiService.showF3Results(filter, dateI, dateF)
                     getStringInput(sc, "Press any button to continue...")
                     break
                 case functions.length - 1:
