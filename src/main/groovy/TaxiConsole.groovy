@@ -1,6 +1,7 @@
 import java.text.SimpleDateFormat
 
 class TaxiConsole {
+    String[] csvFiles = ["taxis-test.csv", "taxis-small.csv", "taxis-medium.csv", "taxis-large.csv"]
     String[] functions = ["Load CSV", "Average Trip Info by Passengers",
                           "Average Trip Info by Fare Range", "Average Trip Info by location and date range",
                           "Exit"]
@@ -76,7 +77,15 @@ class TaxiConsole {
                 case 0:
                     println("Loading CSV...")
                     loaded = true
-                    taxiService.loadCSV("../resources/data/taxis-test.csv")
+                    String file = null
+                    while (file==null){
+                        file = getStringInput(sc, "Select a csv to load:\n(1) taxis-test\n(2) taxis-small\n(3) taxis-medium\n(4) taxis-large")
+                        if (!(["1", "2","3","4"].contains(file))){
+                            println("Invalid option. Please try again.")
+                            file = null
+                            }
+                        }
+                    taxiService.loadCSV("../resources/data/${csvFiles[file.toInteger() - 1]}")
                     taxiService.loadCSV("../resources/data/nyc-neighborhoods.csv")
                     println("CSV Loaded Successfully.")
                     getStringInput(sc, "Press any button to continue...")

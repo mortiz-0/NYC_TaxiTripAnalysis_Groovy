@@ -163,10 +163,21 @@ class TaxiServices{
                         .setSkipHeaderRecord(true)
                         .build()
                 def csvParser = new CSVParser(reader, format)
-                for (record in csvParser) {
+                def records = csvParser.toList()
+                int totalRecords = records.size()
+                int count = 0
+                int next_percent = 10
+                for (record in records) {
                     f1_get_info(record, byPassengerCount, "passenger_count")
                     f1_get_info(record, byPaymentMethod, "payment_type")
                     trips.add(record)
+
+                    count += 1
+                    int current_percent = (int) (((count*100) / totalRecords))
+                    if (current_percent >= next_percent) {
+                        println("Processed ${next_percent}% (${count}/${totalRecords}) records...")
+                        next_percent += 10
+                    }
                 }
             }
             //Load Neighborhoods CSV file and turn it into a JSON
@@ -188,21 +199,20 @@ class TaxiServices{
             }
         }
     }
-    static printMapTable(Map map, String title, List<String> columns, List<String> valueKeys) {
+
+    static void printMapTable(Map map, String title, List<String> columns, List<String> valueKeys) {
         println("\n${title}:")
 
-        // Calcular anchos de columna considerando encabezados y valores
         def columnWidths = [:]
 
-        // Ancho para la primera columna (claves del mapa)
         def firstColWidth = [columns[0].length(), map.keySet().max{it.toString().length()}?.toString()?.length() ?: 0].max()
         columnWidths[0] = firstColWidth + 4
 
-        // Anchos para las columnas de valores
         for (int i = 1; i < columns.size(); i++) {
             def headerWidth = columns[i].length()
             def maxValueWidth = 0
 
+            //noinspection GroovyMissingReturnStatement
             map.each { key, value ->
                 if (key != "time") {
                     def valueStr = value[valueKeys[i - 1]]?.toString() ?: ""
