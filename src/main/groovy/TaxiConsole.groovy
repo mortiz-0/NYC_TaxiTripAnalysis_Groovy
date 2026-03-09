@@ -85,8 +85,11 @@ class TaxiConsole {
                             file = null
                             }
                         }
+                    def startTime = System.currentTimeMillis()
                     taxiService.loadCSV("../resources/data/${csvFiles[file.toInteger() - 1]}")
                     taxiService.loadCSV("../resources/data/nyc-neighborhoods.csv")
+                    def endTime = System.currentTimeMillis()
+                    println("Time taken to load CSV: ${(endTime - startTime)/1000} seconds.")
                     println("CSV Loaded Successfully.")
                     getStringInput(sc, "Press any button to continue...")
                     break

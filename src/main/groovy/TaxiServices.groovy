@@ -1,3 +1,4 @@
+//file:noinspection SpellCheckingInspection
 import groovy.json.JsonSlurper
 import org.apache.commons.csv.CSVFormat
 import org.apache.commons.csv.CSVParser
@@ -44,6 +45,8 @@ class TaxiServices{
         }.first()
         return neighborhood.neighborhood
     }
+
+    @SuppressWarnings('GroovyAssignabilityCheck')
     static def getNeighborhoodPair(trip){
         def projectDir = new File(System.getProperty("user.dir"))
         def jsonFile = new File(projectDir, "../resources/data/neighborhoods.json")
@@ -148,7 +151,6 @@ class TaxiServices{
     }
     // Load CSV file and process records
     void loadCSV(String filePath){
-        long startTime = System.currentTimeMillis()
         def projectDir = new File(System.getProperty("user.dir"))
         def file = new File(projectDir, filePath)
 
@@ -164,13 +166,13 @@ class TaxiServices{
                         .build()
                 def csvParser = new CSVParser(reader, format)
                 def records = csvParser.toList()
+                trips = records
                 int totalRecords = records.size()
                 int count = 0
                 int next_percent = 10
                 for (record in records) {
                     f1_get_info(record, byPassengerCount, "passenger_count")
                     f1_get_info(record, byPaymentMethod, "payment_type")
-                    trips.add(record)
 
                     count += 1
                     int current_percent = (int) (((count*100) / totalRecords))
@@ -194,8 +196,6 @@ class TaxiServices{
                 def jsonOutput = JsonOutput.toJson(data)
                 def jsonFile = new File(projectDir, "../resources/data/neighborhoods.json")
                 jsonFile.withWriter("UTF-8") { writer -> writer.write(jsonOutput)}
-                long endTime = System.currentTimeMillis()
-                println("Executed in ${endTime-startTime}ms.")
             }
         }
     }
@@ -223,7 +223,7 @@ class TaxiServices{
             columnWidths[i] = [headerWidth, maxValueWidth].max() + 4
         }
 
-        def header = columns.collect { it.center(columnWidths[columns.indexOf(it)]) }.join(" | ")
+        def header = columns.collect { it.center(columnWidths[columns.indexOf(it)] as Number) }.join(" | ")
         println("-" * header.length())
         println(header)
         println("-" * header.length())
@@ -241,12 +241,12 @@ class TaxiServices{
 
                 if (cellValue instanceof Number) {
                     if (cellValue instanceof Double || cellValue instanceof Float) {
-                        formattedRow << String.format("%.2f", cellValue).center(columnWidth)
+                        formattedRow << String.format("%.2f", cellValue).center(columnWidth as Number)
                     } else {
-                        formattedRow << cellValue.toString().center(columnWidth)
+                        formattedRow << cellValue.toString().center(columnWidth as Number)
                     }
                 } else {
-                    formattedRow << cellValue.toString().center(columnWidth)
+                    formattedRow << cellValue.toString().center(columnWidth as Number)
                 }
             }
             println(formattedRow.join(" | "))
@@ -264,7 +264,7 @@ class TaxiServices{
 
         printMapTable(mapKey.sort{it.key}, header, columns, valueKeys)
         println("Total Trips Processed: " + total/2)
-        println("Executed in ${mapKey.get("time")}ms.")
+        println("Executed in ${mapKey.get("time")/1000}s.")
 
     }
     void showF2Results(Double fareI, Double fareF){
@@ -274,8 +274,8 @@ class TaxiServices{
         List <String> valueKeys= ["avgPrice", "avgDuration", "avgDistance", "avgTolls", "mostPassengerCount", "mostPaymentType", "mostDatetime"]
         //noinspection GroovyGStringKey
         printMapTable(["(${fareI}-${fareF})":filteredTrips], header, columns, valueKeys)
-        println("Total Trips in Range: " + filteredTrips.size())
-        println("Executed in ${filteredTrips.get("time")}ms.")
+        println("Total Trips in Range: " + filteredTrips.get("size"))
+        println("Executed in ${filteredTrips.get("time")/1000}s.")
 
     }
 
@@ -288,7 +288,7 @@ class TaxiServices{
             List <String> valueKeys= ["size", "mostNeighborhoodPair", "avgTotalCost", "avgDuration", "avgDistance"]
             //noinspection GroovyGStringKey
             printMapTable(["(${this.dateFormat.format(dateI)} - ${this.dateFormat.format(dateF)})":filteredTrips], header, columns, valueKeys)
-            println("Executed in ${filteredTrips.get("time")}ms.")
+            println("Executed in ${filteredTrips.get("time")/1000}s.")
         }
 }
 
